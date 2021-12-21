@@ -1,6 +1,6 @@
 ### What is this?
 
-An http server that listens for requests to 'http://127.0.0.1/q?=YourQueryHere' and responds with an opinionated formatted version with html syntax highlighting.
+A lambda function that waits for a query string and responds with an opinionated formatted version with html syntax highlighting.
 
 ### Example
 
@@ -20,3 +20,29 @@ As you can see, this is how *I* like to format my queries, this certainly doesn'
 ### Notes
 
 Notice in this doc at the very beginning it says "127.0.0.1" and not "localhost". In my testing, localhost still has to do a look up of some sort and does actually add some measurable time to making requests to this server. Only downside is that if you jump to IPV6, we need to know what to change this to (localhost will work for both IPV6 and IPV4)
+
+### For arm64 building on ubuntu
+```shell
+# set up rust
+rustup target add aarch64-unknown-linux-gnu
+
+# add arm64 depedencies
+sudo apt install gcc-aarch64-linux-gnu
+```
+
+Then set this up in `~/.cargo/config`
+
+```
+[target.aarch64-unknown-linux-gnu]
+linker = "aarch64-linux-gnu-gcc
+```
+
+build command
+```shell
+cargo build --release --target aarch64-unknown-linux-gnu
+```
+
+rename binary to bootstrap and zip to send to lambda
+```shell
+cp ./target/aarch64-unknown-linux-gnu/release/mysql-format ./bootstrap && zip lambda.zip bootstrap && rm bootstrap
+```

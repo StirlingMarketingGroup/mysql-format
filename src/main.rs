@@ -1,8 +1,7 @@
-extern crate actix_web;
 extern crate phf;
 extern crate time;
 #[macro_use]
-extern crate serde_derive;
+extern crate lambda_runtime as lambda;
 
 include!(concat!(env!("OUT_DIR"), "/codegen.rs"));
 
@@ -109,7 +108,7 @@ fn mysql_format2(mysql: &str) -> String {
 
         macro_rules! push_str {
             ($s:expr) => {
-                s.push_str($s);
+                s.push_str($s)
             };
         }
 
@@ -698,31 +697,15 @@ fn mysql_format2(mysql: &str) -> String {
     return s;
 }
 
-use actix_web::{
-    web, App, HttpResponse, HttpServer, FromRequest, Result,
-};
+async fn wrapper(event: String, _: lambda::Context) -> Result<String, lambda::Error> {
+    let unformatted_query = event.as_str();
 
-#[derive(Deserialize)]
-pub struct MyParams {
-    q: String,
+    Ok(mysql_format2(unformatted_query))
 }
 
-fn index(params: web::Form<MyParams>) -> Result<HttpResponse> {
-    Ok(HttpResponse::Ok()
-        .content_type("text/html; charset=utf-8")
-        .body(mysql_format2(&params.q[..])))
-}
-
-fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new().service(
-            web::resource("/")
-                .route(web::post()
-                    .to(index)
-                )
-                .data(web::Form::<MyParams>::configure(|cfg| cfg.limit(256 * 1024)))
-        )
-    })
-    .bind("0.0.0.0:8080")?
-    .run()
+#[tokio::main]
+async fn main() -> Result<(), lambda::Error> {
+    let func = lambda::handler_fn(wrapper);
+    lambda::run(func).await?;
+    Ok(())
 }
