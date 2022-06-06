@@ -1,7 +1,6 @@
 extern crate phf;
 extern crate time;
-#[macro_use]
-extern crate lambda_runtime as lambda;
+use wasm_bindgen::prelude::*;
 
 include!(concat!(env!("OUT_DIR"), "/codegen.rs"));
 
@@ -38,7 +37,9 @@ struct StringPart {
     i: usize,
 }
 
-fn mysql_format2(mysql: &str) -> String {
+#[allow(non_snake_case)]
+#[wasm_bindgen]
+pub fn mysqlFormat(mysql: &str) -> String {
     let mysql = mysql.trim();
     let bs = mysql.as_bytes();
     let lower = mysql.to_lowercase();
@@ -695,17 +696,4 @@ fn mysql_format2(mysql: &str) -> String {
     }
 
     return s;
-}
-
-async fn wrapper(event: String, _: lambda::Context) -> Result<String, lambda::Error> {
-    let unformatted_query = event.as_str();
-
-    Ok(mysql_format2(unformatted_query))
-}
-
-#[tokio::main]
-async fn main() -> Result<(), lambda::Error> {
-    let func = lambda::handler_fn(wrapper);
-    lambda::run(func).await?;
-    Ok(())
 }
