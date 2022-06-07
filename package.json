@@ -4,7 +4,7 @@
     "email": "brian@smg.gg",
     "name": "Brian Leishman"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "files": [
     "mysql_format_bg.wasm",
     "mysql_format.js",
