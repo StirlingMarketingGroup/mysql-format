@@ -2,3 +2,5 @@ lambda.zip
 /target
 **/*.rs.bk
 debug.html
+docs/
+site/.hugo_build.lock

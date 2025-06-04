@@ -65,3 +65,15 @@ rename binary to bootstrap and zip to send to lambda
 ```shell
 cp ./target/aarch64-unknown-linux-gnu/release/mysql-format ./bootstrap && zip lambda.zip bootstrap && rm bootstrap
 ```
+
+### Running the Hugo site
+
+The demo site lives under `site/` and outputs to `docs/` when built. To preview
+locally install Hugo and run:
+
+```shell
+hugo --source site --minify
+```
+
+GitHub Actions automatically publishes the contents of `docs/` to GitHub Pages
+using `peaceiris/actions-gh-pages`, so manual deployment isn't needed.
