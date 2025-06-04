@@ -10,7 +10,7 @@
     "mysql_format.js",
     "mysql_format.d.ts"
   ],
-  "main": "",
+  "main": "mysql_format.js",
   "types": "mysql_format.d.ts",
   "description": "A lambda function that waits for a query string and responds with an opinionated formatted version with html syntax highlighting.",
   "repository": {
@@ -19,7 +19,7 @@
     "directory": "pkg"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cargo test"
   },
   "license": "ISC"
 }
