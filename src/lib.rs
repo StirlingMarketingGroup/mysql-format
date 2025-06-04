@@ -695,3 +695,32 @@ pub fn mysqlFormat(mysql: &str) -> String {
 
     return s;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_is_word_select() {
+        assert!(is_word("select"));
+        assert!(!is_word("foo"));
+    }
+
+    #[test]
+    fn test_is_function_now() {
+        assert!(is_function("now"));
+        assert!(!is_function("bar"));
+    }
+
+    #[test]
+    fn test_is_encoding_utf8_bin() {
+        assert!(is_encoding("utf8_bin"));
+        assert!(!is_encoding("latin1"));
+    }
+
+    #[test]
+    fn test_mysql_format_select_one() {
+        let formatted = mysqlFormat("select 1;");
+        assert_eq!(formatted, "<b style=\"color:#2962FF\">select</b> <span style=\"color:#b71c1c\">1</span><b>;</b>");
+    }
+}
