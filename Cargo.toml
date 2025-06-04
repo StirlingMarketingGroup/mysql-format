@@ -2,15 +2,14 @@
 name = "mysql-format"
 version = "0.1.1"
 authors = ["Brian Leishman <brian@stumpyinc.com>"]
-edition = '2018'
+edition = '2021'
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-time = "0.1"
-phf = "0.7"
-wasm-bindgen = "0.2"
+phf = "0.11"
+wasm-bindgen = "0.2.100"
 
 [build-dependencies]
-phf_codegen = "0.7"
+phf_codegen = "0.11"

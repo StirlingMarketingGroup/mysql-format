@@ -1,5 +1,3 @@
-extern crate phf;
-extern crate time;
 use wasm_bindgen::prelude::*;
 
 include!(concat!(env!("OUT_DIR"), "/codegen.rs"));
@@ -229,7 +227,7 @@ pub fn mysqlFormat(mysql: &str) -> String {
         }
 
         macro_rules! consume_all_of {
-            ($($p:pat)|+) => {
+            ($($p:pat_param)|+) => {
                 next!();
                 while i < len {
                     match bs[i] {
