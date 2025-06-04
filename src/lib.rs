@@ -723,4 +723,13 @@ mod tests {
         let formatted = mysqlFormat("select 1;");
         assert_eq!(formatted, "<b style=\"color:#2962FF\">select</b> <span style=\"color:#b71c1c\">1</span><b>;</b>");
     }
+
+    #[test]
+    fn test_mysql_format_select_users() {
+        let formatted = mysqlFormat("select * from users;");
+        assert_eq!(
+            formatted,
+            "<b style=\"color:#2962FF\">select</b><b>*</b><b style=\"color:#2962FF\">\nfrom</b><span style=\"color:#674818\">`users`</span><b>;</b>"
+        );
+    }
 }
