@@ -10,7 +10,10 @@ fn main() {
     let mut file = BufWriter::new(File::create(&path).unwrap());
 
     write!(&mut file, "static KEYWORDS: phf::Set<&'static str> = ").unwrap();
-    phf_codegen::Set::new()
+    write!(
+        &mut file,
+        "{}",
+        phf_codegen::Set::new()
         .entry("accessible")
         .entry("account")
         .entry("action")
@@ -699,12 +702,15 @@ fn main() {
         .entry("year")
         .entry("year_month")
         .entry("zerofill")
-        .build(&mut file)
-        .unwrap();
+        .build()
+    ).unwrap();
     write!(&mut file, ";\n").unwrap();
 
     write!(&mut file, "static FUNCTIONS: phf::Set<&'static str> = ").unwrap();
-    phf_codegen::Set::new()
+    write!(
+        &mut file,
+        "{}",
+        phf_codegen::Set::new()
         .entry("abs")
         .entry("acos")
         .entry("adddate")
@@ -1117,12 +1123,15 @@ fn main() {
         .entry("weight_string")
         .entry("year")
         .entry("yearweek")
-        .build(&mut file)
-        .unwrap();
+        .build()
+    ).unwrap();
     write!(&mut file, ";\n").unwrap();
 
     write!(&mut file, "static ENCODINGS: phf::Set<&'static str> = ").unwrap();
-    phf_codegen::Set::new()
+    write!(
+        &mut file,
+        "{}",
+        phf_codegen::Set::new()
         .entry("_big5")
         .entry("_dec8")
         .entry("_cp850")
@@ -1386,7 +1395,7 @@ fn main() {
         .entry("gb18030_chinese_ci")
         .entry("gb18030_bin")
         .entry("gb18030_unicode_520_ci")
-        .build(&mut file)
-        .unwrap();
+        .build()
+    ).unwrap();
     write!(&mut file, ";\n").unwrap();
 }
