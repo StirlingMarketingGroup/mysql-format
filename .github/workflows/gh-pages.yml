@@ -29,6 +29,9 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
+      - name: install dart sass
+        run: npm install -g sass
+
       - name: build website
         working-directory: website
         run: hugo --minify
