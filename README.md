@@ -2,6 +2,8 @@
 
 A lambda function that waits for a query string and responds with an opinionated formatted version with html syntax highlighting.
 
+**Try it online:** https://stirlingmarketinggroup.github.io/mysql-format/
+
 ### Example
 
 Take the following as input:
@@ -9,7 +11,7 @@ Take the following as input:
 ```sql
 sELECT users.`UserID`id,now(+6365)
 fRoM`users`
-JOIN`companies`using(`CompanyID`) WHERE`users`.`Email`='プログ\'ラマーズ>'`companies`.`NetworkID`=x'1541A488C87419F2' and`companies`.`NetworkID`=0x1541A488C87419F2
+JOIN`companies`using(`CompanyID`) WHERE`users`.`Email`='プログ\'ラマーズ>'or`companies`.`NetworkID`=x'1541A488C87419F2' and`companies`.`NetworkID`=0x1541A488C87419F2
 and`companies`.`CompanyID`in(@@AdminCompanyIDs) and yeet.poop   in('') and`users`.`__Active`<>0.0 and @i := -.232 order by`users`.`__Added`desc limit 1;
 ```
 
