@@ -28,6 +28,7 @@ enum Token {
     Placeholder,
     Comment,
     Encoding,
+    Template,
 }
 
 struct StringPart {
@@ -533,6 +534,18 @@ pub fn mysqlFormat(mysql: &str) -> String {
             };
         }
 
+        macro_rules! push_token_template {
+            () => {
+                prep_token!(
+                    Template,
+                    "<span style=\"color:#F9A825\">",
+                    "</span>"
+                );
+                l_push_str!(&mysql[start..=i]);
+                l_push!(' '); // Trailing space to prevent token collision
+            };
+        }
+
         macro_rules! string_arm {
             ($e:expr, $label:tt) => {{
                 next!();
@@ -684,6 +697,13 @@ pub fn mysqlFormat(mysql: &str) -> String {
                     push_token_variable!();
                 }
             }
+            b'{' => {
+                start = i;
+                next!(); // skip second `{`
+                consume_until!(b'}');
+                next!(2); // skip second `}`
+                push_token_template!();
+            }
             _ => {}
         }
 
@@ -694,6 +714,23 @@ pub fn mysqlFormat(mysql: &str) -> String {
     }
 
     return s;
+}
+
+/// Returns a JS object with { result: string, timeMs: number }
+#[allow(non_snake_case)]
+#[wasm_bindgen]
+pub fn mysqlFormatTimed(mysql: &str) -> js_sys::Object {
+    let window = web_sys::window().expect("no window");
+    let performance = window.performance().expect("no performance");
+
+    let start = performance.now();
+    let result = mysqlFormat(mysql);
+    let elapsed = performance.now() - start;
+
+    let obj = js_sys::Object::new();
+    js_sys::Reflect::set(&obj, &"result".into(), &result.into()).unwrap();
+    js_sys::Reflect::set(&obj, &"timeMs".into(), &elapsed.into()).unwrap();
+    obj
 }
 
 #[cfg(test)]
@@ -731,5 +768,20 @@ mod tests {
             formatted,
             "<b style=\"color:#2962FF\">select</b><b>*</b><b style=\"color:#2962FF\">\nfrom</b><span style=\"color:#674818\">`users`</span><b>;</b>"
         );
+    }
+
+    #[test]
+    fn test_mysql_format_go_template() {
+        // Templates should be preserved with trailing space (space inside span)
+        let formatted = mysqlFormat("select * from users where id={{ .ID }}and name='test'");
+        assert!(formatted.contains("{{ .ID }} </span>"), "Template should have trailing space: {}", formatted);
+    }
+
+    #[test]
+    fn test_mysql_format_go_template_conditional() {
+        let formatted = mysqlFormat("select * from t where a=1{{ if .X }}and b=2{{ end }}");
+        // Both templates should be present
+        assert!(formatted.contains("{{ if .X }}"));
+        assert!(formatted.contains("{{ end }}"));
     }
 }

@@ -7,11 +7,11 @@
     <meta name="description" content="Format MySQL queries with syntax highlighting. Outputs for SQL, PHP, and Go.">
 
     <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ "apple-touch-icon.png" | relURL }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ "favicon-32x32.png" | relURL }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ "favicon-16x16.png" | relURL }}">
+    <link rel="manifest" href="{{ "manifest.json" | relURL }}">
+    <link rel="mask-icon" href="{{ "safari-pinned-tab.svg" | relURL }}" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#282a36">
     <meta name="theme-color" content="#282a36">
 
@@ -19,10 +19,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <!-- WASM Module -->
-    <script src="/wasm/mysql_format.js"></script>
+    <script src="{{ "wasm/mysql_format.js" | relURL }}"></script>
+    <script>var wasmPath = "{{ "wasm/mysql_format_bg.wasm" | relURL }}";</script>
 
     <!-- Monaco Editor -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.0/min/vs/loader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
 
     <!-- Compiled SCSS -->
     {{ $sass := resources.Get "sass/main.scss" | toCSS (dict "transpiler" "dartsass") | minify | fingerprint }}
@@ -35,6 +36,7 @@
             <span class="navbar-brand">
                 <i class="bi bi-database"></i> MySQL Formatter
             </span>
+            <span id="format-time" class="format-time"></span>
             <a href="https://github.com/StirlingMarketingGroup/mysql-format" class="github-link" target="_blank" rel="noopener">
                 <i class="bi bi-github"></i> GitHub
             </a>

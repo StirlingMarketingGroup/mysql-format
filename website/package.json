@@ -1,0 +1,10 @@
+{
+  "name": "mysql-format-website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "hugo server --port 1314",
+    "build": "hugo --minify",
+    "postinstall": "cd assets && npm install"
+  }
+}

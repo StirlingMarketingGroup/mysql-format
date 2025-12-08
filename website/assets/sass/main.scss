@@ -51,6 +51,12 @@ body {
     }
 }
 
+.format-time {
+    color: $text-secondary;
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+}
+
 .github-link {
     color: $text-secondary;
     text-decoration: none;
