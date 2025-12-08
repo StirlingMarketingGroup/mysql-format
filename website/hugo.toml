@@ -1,0 +1,4 @@
+baseURL = "https://stirlingmarketinggroup.github.io/mysql-format/"
+languageCode = "en-us"
+title = "MySQL Formatter"
+disableKinds = ['taxonomy', 'term', 'RSS', 'sitemap']

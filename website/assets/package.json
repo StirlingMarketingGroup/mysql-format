@@ -1,0 +1,8 @@
+{
+  "name": "mysql-format-website",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "bootstrap": "^5.3.3"
+  }
+}

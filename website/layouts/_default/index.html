@@ -1,0 +1,41 @@
+{{ define "title" }}MySQL Formatter{{ end }}
+
+{{ define "main" }}
+<div class="editor-grid">
+    <!-- Top Left: Input -->
+    <div class="editor-panel">
+        <div class="editor-header">
+            <span><i class="bi bi-pencil-square"></i> Input SQL</span>
+            <span class="badge badge-primary">Editable</span>
+        </div>
+        <div class="editor-container" id="editor-input"></div>
+    </div>
+
+    <!-- Top Right: Formatted Output -->
+    <div class="editor-panel">
+        <div class="editor-header">
+            <span><i class="bi bi-code-slash"></i> Formatted SQL</span>
+            <span class="badge badge-secondary">Read-only</span>
+        </div>
+        <div class="editor-container" id="editor-formatted"></div>
+    </div>
+
+    <!-- Bottom Left: PHP Output -->
+    <div class="editor-panel">
+        <div class="editor-header">
+            <span><i class="bi bi-filetype-php"></i> PHP String</span>
+            <span class="badge badge-secondary">Read-only</span>
+        </div>
+        <div class="editor-container" id="editor-php"></div>
+    </div>
+
+    <!-- Bottom Right: Go Output -->
+    <div class="editor-panel">
+        <div class="editor-header">
+            <span><i class="bi bi-code"></i> Go String</span>
+            <span class="badge badge-secondary">Read-only</span>
+        </div>
+        <div class="editor-container" id="editor-go"></div>
+    </div>
+</div>
+{{ end }}

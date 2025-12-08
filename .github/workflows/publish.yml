@@ -11,36 +11,30 @@ jobs:
 
     steps:
       - name: checkout master
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
+        uses: actions/checkout@v6
 
       - name: set up rust toolchain
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
-          target: aarch64-unknown-linux-gnu
-          override: true
+          targets: aarch64-unknown-linux-gnu
 
       - name: install arm64 cc
-        run: sudo apt install -y gcc-aarch64-linux-gnu
+        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
 
       - name: change linker for cargo
         run: |
-          echo '[target.aarch64-unknown-linux-gnu]'  > ~/.cargo/config
-          echo 'linker = "aarch64-linux-gnu-gcc"'   >> ~/.cargo/config
+          mkdir -p ~/.cargo
+          echo '[target.aarch64-unknown-linux-gnu]' > ~/.cargo/config.toml
+          echo 'linker = "aarch64-linux-gnu-gcc"' >> ~/.cargo/config.toml
 
       - name: build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release --target aarch64-unknown-linux-gnu
-     
+        run: cargo build --release --target aarch64-unknown-linux-gnu
+
       - name: zip
         run: cp ./target/aarch64-unknown-linux-gnu/release/mysql-format ./bootstrap && zip lambda.zip bootstrap && rm bootstrap
 
       - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
