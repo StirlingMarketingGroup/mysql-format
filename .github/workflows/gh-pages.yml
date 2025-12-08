@@ -30,7 +30,12 @@ jobs:
           extended: true
 
       - name: install dart sass
-        run: npm install -g sass
+        run: |
+          curl -LO https://github.com/sass/dart-sass/releases/download/1.83.0/dart-sass-1.83.0-linux-x64.tar.gz
+          tar -xzf dart-sass-1.83.0-linux-x64.tar.gz
+          sudo mv dart-sass/sass /usr/local/bin/sass
+          sudo mv dart-sass/src /usr/local/bin/src
+          sass --version
 
       - name: build website
         working-directory: website
